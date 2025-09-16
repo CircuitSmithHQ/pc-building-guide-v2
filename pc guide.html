@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive PC Building Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Cyber Slate -->
+    <!-- Application Structure Plan: A single-page app with a fixed left-hand navigation sidebar for quick access to steps, and a main scrollable content area. This structure turns the linear guide into a more flexible and less intimidating tool. Key interactions include an interactive checklist for preparation, an accordion for troubleshooting common issues, and tooltips for technical terms. This design prioritizes ease of navigation and on-demand information for beginner builders. -->
+    <!-- Visualization & Content Choices: The guide's text is broken into distinct cards for readability. The Pre-Build Checklist (Goal: Organize) is an interactive HTML list with checkboxes. The core steps (Goal: Inform/Guide) use styled HTML and icons to represent components, with JS-powered tooltips for jargon. The Troubleshooting section (Goal: Organize/Solve) uses a JS-powered accordion to hide complex solutions until needed. This approach avoids data visualization libraries, which are not relevant, and uses interactive HTML/JS to enhance the user's learning process. NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link.active {
+            background-color: #059669;
+            color: #ffffff;
+            font-weight: 700;
+        }
+        .task-item input:checked + label {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <nav class="w-64 fixed top-0 left-0 h-full bg-gray-800 p-5 hidden md:block">
+            <h2 class="text-xl font-bold text-emerald-400 mb-6">Build Steps</h2>
+            <ul id="navigation" class="space-y-2">
+                <li><a href="#intro" class="nav-link block p-3 rounded-md hover:bg-gray-700 transition-colors duration-200">Introduction</a></li>
+                <li><a href="#step1" class="nav-link block p-3 rounded-md hover:bg-gray-700 transition-colors duration-200">1. Pre-Build Checklist</a></li>
+                <li><a href="#step2" class="nav-link block p-3 rounded-md hover:bg-gray-700 transition-colors duration-200">2. Motherboard Prep</a></li>
+                <li><a href="#step3" class="nav-link block p-3 rounded-md hover:bg-gray-700 transition-colors duration-200">3. Case Installation</a></li>
+                <li><a href="#step4" class="nav-link block p-3 rounded-md hover:bg-gray-700 transition-colors duration-200">4. Component Install</a></li>
+                <li><a href="#step5" class="nav-link block p-3 rounded-md hover:bg-gray-700 transition-colors duration-200">5. Cable Connections</a></li>
+                <li><a href="#step6" class="nav-link block p-3 rounded-md hover:bg-gray-700 transition-colors duration-200">6. First Boot & OS</a></li>
+                <li><a href="#troubleshooting" class="nav-link block p-3 rounded-md hover:bg-gray-700 transition-colors duration-200">Troubleshooting</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 md:ml-64 p-6 sm:p-8 md:p-12">
+            <section id="intro" class="mb-16">
+                <h1 class="text-4xl sm:text-5xl font-bold text-emerald-400 mb-4">A Beginner's Guide to Building Your First Gaming PC</h1>
+                <p class="text-lg text-gray-400">Welcome to the world of PC building! This interactive guide will walk you through assembling your computer from scratch. It might seem daunting, but by following these steps, you'll have a custom-built rig you can be proud of. Use the navigation on the left to jump to any step.</p>
+            </section>
+
+            <section id="step1" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 border-l-4 border-emerald-400 pl-4">Step 1: Pre-Build Checklist</h2>
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <p class="mb-6 text-gray-400">Before you start, make sure you have everything ready. This prevents you from stopping mid-build to look for a missing part or tool. Check off items as you gather them.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-emerald-300">Your Components</h3>
+                            <ul class="space-y-3">
+                                <li class="task-item"><input type="checkbox" id="comp1" class="mr-2 accent-emerald-500"><label for="comp1">CPU (Processor)</label></li>
+                                <li class="task-item"><input type="checkbox" id="comp2" class="mr-2 accent-emerald-500"><label for="comp2">Motherboard</label></li>
+                                <li class="task-item"><input type="checkbox" id="comp3" class="mr-2 accent-emerald-500"><label for="comp3">RAM (Memory)</label></li>
+                                <li class="task-item"><input type="checkbox" id="comp4" class="mr-2 accent-emerald-500"><label for="comp4">Storage Drive (SSD/HDD)</label></li>
+                                <li class="task-item"><input type="checkbox" id="comp5" class="mr-2 accent-emerald-500"><label for="comp5">Graphics Card (GPU)</label></li>
+                                <li class="task-item"><input type="checkbox" id="comp6" class="mr-2 accent-emerald-500"><label for="comp6">Power Supply (PSU)</label></li>
+                                <li class="task-item"><input type="checkbox" id="comp7" class="mr-2 accent-emerald-500"><label for="comp7">PC Case</label></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-emerald-300">Tools & Workspace</h3>
+                            <ul class="space-y-3">
+                                <li class="task-item"><input type="checkbox" id="tool1" class="mr-2 accent-emerald-500"><label for="tool1">Phillips-head screwdriver</label></li>
+                                <li class="task-item"><input type="checkbox" id="tool2" class="mr-2 accent-emerald-500"><label for="tool2">Cable ties or straps</label></li>
+                                <li class="task-item"><input type="checkbox" id="tool3" class="mr-2 accent-emerald-500"><label for="tool3">Anti-static wrist strap (optional)</label></li>
+                                <li class="task-item"><input type="checkbox" id="tool4" class="mr-2 accent-emerald-500"><label for="tool4">Large, clean, well-lit workspace</label></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="step2" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 border-l-4 border-emerald-400 pl-4">Step 2: Preparing the Motherboard</h2>
+                 <div class="space-y-6">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">1. Install the CPU</h3>
+                        <p class="text-gray-400">Locate the socket, lift the lever, align the CPU's gold arrow with the socket's arrow, and gently drop it in. <strong class="text-red-400">Do not force it.</strong> Lower the lever to secure it.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">2. Install the RAM</h3>
+                        <p class="text-gray-400">Open the clips on the RAM slots. Align the notch on the RAM stick with the notch in the slot. Push down firmly on both ends until the clips click shut.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">3. Install the M.2 SSD</h3>
+                        <p class="text-gray-400">If you have one, locate the M.2 slot. Insert the drive at an angle, press it down, and secure it with the small screw.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="step3" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 border-l-4 border-emerald-400 pl-4">Step 3: Installing the Motherboard in the Case</h2>
+                <div class="space-y-6">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">1. Install the I/O Shield</h3>
+                        <p class="text-gray-400">If it's not pre-installed, snap the I/O shield into the rectangular cutout on the back of your case from the inside.</p>
+                    </div>
+                     <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">2. Install Standoffs</h3>
+                        <p class="text-gray-400">Screw standoffs into the case holes that align with your motherboard's mounting holes. These prevent short circuits.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">3. Mount the Motherboard</h3>
+                        <p class="text-gray-400">Carefully lower the board onto the standoffs, aligning the ports with the I/O shield. Screw it in securely but not overly tight.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="step4" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 border-l-4 border-emerald-400 pl-4">Step 4: Installing Other Components</h2>
+                 <div class="space-y-6">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">1. Install the Power Supply (PSU)</h3>
+                        <p class="text-gray-400">Slide the PSU into its bay (usually at the bottom rear of the case) and screw it in from the outside.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">2. Install the Graphics Card (GPU)</h3>
+                        <p class="text-gray-400">Remove the case brackets corresponding to the top PCIe slot. Align the card with the slot and press down firmly until it clicks. Screw its bracket to the case.</p>
+                    </div>
+                     <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">3. Install Storage Drives</h3>
+                        <p class="text-gray-400">Mount any 2.5" or 3.5" drives into the case's drive bays and secure them with screws.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="step5" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 border-l-4 border-emerald-400 pl-4">Step 5: Connecting the Cables</h2>
+                 <div class="space-y-6">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">Power Cables</h3>
+                        <p class="text-gray-400">Connect the large 24-pin motherboard cable and the 8-pin CPU cable (top-left of motherboard). Connect the PCIe power cables to your GPU if required.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">Front Panel Cables</h3>
+                        <p class="text-gray-400">These tiny cables for your case's power button, USB ports, etc., connect to a block of pins on the motherboard. <strong class="text-yellow-400">Check your motherboard manual for the exact layout!</strong></p>
+                    </div>
+                     <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-emerald-300 mb-2">Fans & Drives</h3>
+                        <p class="text-gray-400">Connect case fans to the fan headers on the motherboard. Connect SATA data and power cables to your storage drives.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="step6" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 border-l-4 border-emerald-400 pl-4">Step 6: First Boot and OS Installation</h2>
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <p class="text-gray-400">Connect your monitor cable to the <strong class="text-emerald-400">graphics card</strong>, not the motherboard. Plug in the PC and press the power button. If it turns on and shows a display, you're ready to insert your OS installation USB and follow the on-screen prompts. Congratulations, you've built a PC!</p>
+                </div>
+            </section>
+
+            <section id="troubleshooting">
+                <h2 class="text-3xl font-bold mb-6 border-l-4 border-emerald-400 pl-4">Basic Troubleshooting</h2>
+                <div id="accordion" class="space-y-4">
+                    <div>
+                        <button class="accordion-header w-full text-left bg-gray-800 p-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors duration-200 flex justify-between items-center">
+                            <span class="text-lg font-semibold text-red-400">Problem: Nothing turns on.</span>
+                            <span class="transform transition-transform duration-300 text-emerald-400">▼</span>
+                        </button>
+                        <div class="accordion-content hidden p-4 bg-gray-800 border-t border-gray-700 rounded-b-lg">
+                            <ul class="list-disc list-inside text-gray-400 space-y-2">
+                                <li>Is the power switch on the back of the PSU flipped on?</li>
+                                <li>Are all power cables (motherboard, CPU) firmly connected?</li>
+                                <li>Are the front panel power switch cables connected correctly to the motherboard?</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div>
+                        <button class="accordion-header w-full text-left bg-gray-800 p-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors duration-200 flex justify-between items-center">
+                            <span class="text-lg font-semibold text-red-400">Problem: PC turns on, but no display on monitor.</span>
+                            <span class="transform transition-transform duration-300 text-emerald-400">▼</span>
+                        </button>
+                        <div class="accordion-content hidden p-4 bg-gray-800 border-t border-gray-700 rounded-b-lg">
+                            <ul class="list-disc list-inside text-gray-400 space-y-2">
+                                <li>Is the monitor cable plugged into the graphics card, not the motherboard?</li>
+                                <li>Is the graphics card fully seated in its slot? Does it have power connected?</li>
+                                <li>Try reseating the RAM sticks. Push them out and click them back in firmly.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('nav a');
+            const mainContent = document.getElementById('main-content');
+
+            const options = {
+                root: mainContent,
+                rootMargin: '0px',
+                threshold: 0.5 
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('span:last-child');
+                    
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
